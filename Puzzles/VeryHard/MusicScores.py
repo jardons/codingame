@@ -56,13 +56,20 @@ i = start
 result = []
 while i < end:
     for k in range(12):
+
+        # Selection of a predefined fix point in the note to detect it.
+        # Note presence will always be checked on the upper left of the note,
+        # allowing us to ignore any test on the tail as, when the tail is on the left,
+        # it's always directed downside and the challenge don't require to parse chords with multiple notes.
         j = grid[k//2][0] - 1 if k % 2 == 1 else grid[k//2][0] - size // 2
 
         if j >= 0 and j < len(img) and img[j][i] == '#':
+            # Check color in the horizontal center of the note.
             noteType = 'Q' if img[j][i + size // 2] == '#' else 'H'
-            print(f'Found {noteType} note in {i}, {j}', file=sys.stderr, flush=True)
             result.append(f'{NOTES[k%7]}{noteType}')
-            i += size
+
+            # Skip full note as no simultanate note are possible.
+            i += size 
             break
 
     i += 1
