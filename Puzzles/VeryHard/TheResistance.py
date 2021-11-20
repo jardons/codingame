@@ -1,3 +1,8 @@
+# A more common solution with far less code is possible with a coplexity level of O(N * D) where N is the Number of char to parse and D the size of the Dictionary.
+# The current solution is proposing a complexity of O(N * P) where P is the number of simultaneous word in Progress.
+# Even if calculating a value for P, this value will always be a subset of D, and is evaluated to 25 for the last test case of codigame.
+# When comparing using benchamrk, this solution was 10 time faster that the O(N * D) one.
+
 import sys
 import math
 import itertools
