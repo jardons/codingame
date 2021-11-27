@@ -41,6 +41,32 @@ namespace MarsLanderSimulatorTests
 		}
 
 		[Theory]
+		[InlineData(2700, 2698, -4, 1, 1)]
+		[InlineData(2700, 1245, -104, 1, 28)]
+		[InlineData(2700, 1245, -104, 2, 28)]
+		[InlineData(2700, 1245, -104, 3, 28)]
+		[InlineData(2700, 1245, -104, 4, 28)]
+		[InlineData(2700, 1245, -104, 5, 28)]
+		[InlineData(2700, 1245, -104, 10, 28)]
+		[InlineData(2700, 1245, -104, 15, 28)]
+		[InlineData(2700, 1245, -104, -5, 28)]
+		[InlineData(2700, 1245, -104, -10, 28)]
+		[InlineData(2700, 1245, -104, -15, 28)]
+		public void FreeFallTilted(int y, int expectedY, int expectedYSpeed, int rotate, int turns)
+		{
+			Simulator sim = new Simulator();
+			State s = new State { Y = y, X = 2500 };
+
+			for (int i = 0; i < turns; ++i)
+				s = sim.ApplyCommand(new Command { Power = 0, Rotate = rotate }, s);
+
+			Assert.Equal(expectedY, (int)Math.Round(s.Y));
+			Assert.Equal(expectedYSpeed, (int)Math.Round(s.YSpeed));
+			Assert.Equal(2500, (int)Math.Round(s.X));
+			Assert.Equal(0, (int)Math.Round(s.XSpeed));
+		}
+
+		[Theory]
 		[InlineData(2700, 2699, -3, 1, 1)]
 		[InlineData(2700, 2695, -5, 1, 2)]
 		[InlineData(2700, 2688, -8, 1, 3)]
@@ -57,6 +83,33 @@ namespace MarsLanderSimulatorTests
 
 			Assert.Equal(expected, (int)Math.Round(s.Y));
 			Assert.Equal(expectedSpeed, (int)Math.Round(s.YSpeed));
+		}
+
+		[Theory]
+		[InlineData(2700, 2500, 2699, 2500, -3, 0, 15, 1, 1)]
+		[InlineData(2700, 2500, 2695, 2499, -5, -1, 15, 1, 2)]
+		[InlineData(2700, 2500, 2688, 2499, -8, -1, 15, 1, 3)]
+		[InlineData(2700, 2500, 2678, 2498, -11, -1, 15, 1, 4)]
+		[InlineData(2700, 2500, 2666, 2497, -14, -1, 15, 1, 5)]
+		[InlineData(2700, 2500, 1465, 2384, -82, -8, 15, 1, 30)]
+		[InlineData(2700, 2500, 2699, 2500, -3, 0, -15, 1, 1)]
+		[InlineData(2700, 2500, 2695, 2501, -5, 1, -15, 1, 2)]
+		[InlineData(2700, 2500, 2688, 2501, -8, 1, -15, 1, 3)]
+		[InlineData(2700, 2500, 2678, 2502, -11, 1, -15, 1, 4)]
+		[InlineData(2700, 2500, 2666, 2503, -14, 1, -15, 1, 5)]
+		[InlineData(2700, 2500, 1465, 2616, -82, 8, -15, 1, 30)]
+		public void TiltedPower(int y, int x, int expectedY, int expectedX, int expectedYSpeed, int expectedXSpeed, int rotate, int power, int turns)
+		{
+			Simulator sim = new Simulator();
+			State s = new State { Y = y, X = x };
+
+			for (int i = 0; i < turns; ++i)
+				s = sim.ApplyCommand(new Command { Power = power, Rotate = rotate }, s);
+
+			Assert.Equal(expectedY, (int)Math.Round(s.Y));
+			Assert.Equal(expectedYSpeed, (int)Math.Round(s.YSpeed));
+			Assert.Equal(expectedX, (int)Math.Round(s.X));
+			Assert.Equal(expectedXSpeed, (int)Math.Round(s.XSpeed));
 		}
 	}
 }
