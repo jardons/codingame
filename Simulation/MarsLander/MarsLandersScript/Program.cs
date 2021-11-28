@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace MarsLandersScript
 {
@@ -11,6 +12,45 @@ namespace MarsLandersScript
 		public double YSpeed;
 		public int Rotate;
 		public int Power;
+	}
+
+	public struct Point
+	{
+		public int X;
+		public int Y;
+
+		public Point(int x, int y)
+		{
+			this.X = x;
+			this.Y = y;
+		}
+	}
+
+	public class Ground
+	{
+		public Point[] Points;
+		public int Left;
+		public int Right;
+		public int Center;
+		public int Altitude;
+
+		public Ground(Point[] points)
+		{
+			this.Points = points;
+			Point previous = new Point { X = -1, Y = -1 };
+			foreach (Point p in points)
+			{
+				if (p.Y == previous.Y)
+				{
+					this.Left = previous.X;
+					this.Right = p.X;
+					this.Center = (this.Left + this.Right) / 2;
+					this.Altitude = p.Y;
+					break;
+				}
+				previous = p;
+			}
+		}
 	}
 
 	public class Command
