@@ -66,6 +66,13 @@ namespace MarsLandersScript
 	{
 		public const double GRAVITY = -3.711; // m/s²
 
+		private Ground m_Ground;
+
+		public Simulator(Ground g)
+		{
+			m_Ground = g;
+		}
+
 		public State ApplyCommand(Command c, State s)
 		{
 			double newYSpeed = GRAVITY + c.YPower;
