@@ -15,7 +15,6 @@ macro_rules! read_int {
 macro_rules! follow_flow {
     ($v:expr) => {{
         let mut r = $v;
-        let mut s = $v.to_string();
 
         for c in $v.to_string().chars() {
             r += c.to_string().parse::<i64>().unwrap()
