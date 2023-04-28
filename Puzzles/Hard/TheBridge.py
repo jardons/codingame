@@ -65,6 +65,7 @@ while True:
     state = (speed, bikes)
 
     # In order to get all achievments, first attempt try to save all bikes if possible.
+    # This is a lazy solution as we could change propagation in order to search optimal path instead of stopping on first one.
     v, temp = len(bikes), v
     a = Calculate(state)
 
