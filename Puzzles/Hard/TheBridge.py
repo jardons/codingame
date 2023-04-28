@@ -48,7 +48,7 @@ def Calculate(state):
         if len(new_state[1]) >= v:
             if new_state[1][0][0] >= d:
                 return action
-            
+
             if Calculate(new_state):
                 return action
     return None
@@ -64,7 +64,14 @@ while True:
 
     state = (speed, bikes)
 
+    # In order to get all achievments, first attempt try to save all bikes if possible.
+    v, temp = len(bikes), v
     a = Calculate(state)
+
+    if not a:
+        # If all bikes cannot be saved, stay in line with objective provided in input.
+        v = temp
+        a = Calculate(state)
 
     # A single line containing one of 6 keywords: SPEED, SLOW, JUMP, WAIT, UP, DOWN.
     print(a)
