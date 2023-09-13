@@ -20,7 +20,7 @@ def simulate(instructions: List[str], target: List[int]) -> bool:
         elif i == 'TURN RIGHT':
             direction = (direction + 1) % 4
         else:
-            print(f'Invalid action {a}', file=sys.stderr, flush=True)
+            print(f'Invalid action {i}', file=sys.stderr, flush=True)
 
     return pos[0] == target[0] and pos[1] == target[1]
 
